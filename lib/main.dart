@@ -63,7 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.white,
                   ),
                 )),
-                IconButton(onPressed: () {}, icon: Icon(Icons.send))
+                IconButton(
+                    onPressed: () {
+                      sendMessage(_controller.text);
+                      _controller.clear();
+                    },
+                    icon: Icon(Icons.send))
               ],
             ),
           )
