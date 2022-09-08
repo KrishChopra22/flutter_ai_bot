@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late DialogFlowtter dialogFlowtter;
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   List<Map<String, dynamic>> messages = [];
 
@@ -49,9 +49,33 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         child: Column(children: [
-          Expanded(child: Messages(messages: messages)),
+          Expanded(child: MessagesScreen(messages: messages)),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            color: Colors.deepPurple,
+            child: Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  controller: _controller,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )),
+                IconButton(onPressed: () {}, icon: Icon(Icons.send))
+              ],
+            ),
+          )
         ]),
       ),
     );
+  }
+
+  sendMessage(String text) async {
+    if (text.isEmpty) {
+      print('No Message found');
+    } else {
+      setState(() {});
+    }
   }
 }
