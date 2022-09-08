@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(child: MessagesScreen(messages: messages)),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            color: Colors.deepPurple,
+            color: Colors.teal.shade800,
             child: Row(
               children: [
                 Expanded(

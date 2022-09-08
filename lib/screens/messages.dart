@@ -9,10 +9,16 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
+  late ScrollController _scrollController;
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    });
     var w = MediaQuery.of(context).size.width;
     return ListView.separated(
+        controller: _scrollController,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.all(10),
@@ -44,5 +50,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
         },
         separatorBuilder: (_, i) => Padding(padding: EdgeInsets.only(top: 10)),
         itemCount: widget.messages.length);
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
