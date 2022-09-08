@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'AI bot',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -75,7 +76,20 @@ class _MyHomePageState extends State<MyHomePage> {
     if (text.isEmpty) {
       print('No Message found');
     } else {
-      setState(() {});
+      setState(() {
+        addMessage(Message(text: DialogText(text: [text])), true);
+      });
+
+      DetectIntentResponse response = await dialogFlowtter.detectIntent(
+          queryInput: QueryInput(text: TextInput(text: text)));
+      if (response.message == null) return;
+      setState(() {
+        addMessage(response.message!);
+      });
     }
+  }
+
+  addMessage(Message message, [bool isUserMessage = false]) {
+    messages.add({'message': message, 'isUserMessage': isUserMessage});
   }
 }
