@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'screens/messages.dart';
 
 void main() {
@@ -85,12 +87,23 @@ class _MyHomePageState extends State<MyHomePage> {
         addMessage(Message(text: DialogText(text: [text])), true);
       });
 
-      DetectIntentResponse response = await dialogFlowtter.detectIntent(
-          queryInput: QueryInput(text: TextInput(text: text)));
-      if (response.message == null) return;
+      Uri uri = Uri.parse("https://demo-bot.skyadav.repl.co/api/$text");
+      print("Api Get Call : $uri");
+      final responsed = await http.get(uri);
+      String responseBody = utf8.decoder.convert(responsed.bodyBytes);
+      final Map<String, dynamic> responseJson = json.decode(responseBody);
+      print("Response : $responseJson");
+
       setState(() {
-        addMessage(response.message!);
+        addMessage(Message(text: DialogText(text: [responseJson['response']])));
       });
+
+      // DetectIntentResponse response = await dialogFlowtter.detectIntent(
+      //     queryInput: QueryInput(text: TextInput(text: text)));
+      // if (response.message == null) return;
+      // setState(() {
+      //   addMessage(response.message!);
+      // });
     }
   }
 
